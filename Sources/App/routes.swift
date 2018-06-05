@@ -15,4 +15,12 @@ public func routes(_ router: Router) throws {
         let name = try req.parameters.next(String.self)
         return "Hello, \(name)!"
     }
+
+    router.post(InfoData.self, at: "info") { req, data -> String in
+        return "Hello \(data.name)!"
+    }
+}
+
+struct InfoData: Content {
+    let name: String
 }

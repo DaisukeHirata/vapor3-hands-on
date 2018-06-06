@@ -41,6 +41,12 @@ public func routes(_ router: Router) throws {
             return acronym.save(on: req)
         }
     }
+
+    router.delete("api", "acronyms", Acronym.parameter) { req -> Future<HTTPStatus> in
+        return try req.parameters.next(Acronym.self).flatMap(to: HTTPStatus.self) { acronym in
+            return acronym.delete(on: req).transform(to: HTTPStatus.noContent)
+        }
+    }
 }
 
 struct InfoData: Content {

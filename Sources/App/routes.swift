@@ -65,6 +65,10 @@ public func routes(_ router: Router) throws {
             return acronym
         }
     }
+
+    router.get("api", "acronyms", "sorted") { req -> Future<[Acronym]> in
+        return try Acronym.query(on: req).sort(\.short, .ascending).all()
+    }
 }
 
 struct InfoData: Content {

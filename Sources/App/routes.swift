@@ -53,7 +53,10 @@ public func routes(_ router: Router) throws {
         guard let searchTerm = req.query[String.self, at: "term"] else {
             throw Abort(.badRequest)
         }
-        return try Acronym.query(on: req).filter(\.short == searchTerm).all()
+        return try Acronym.query(on: req).group(.or) { or in
+            try or.filter(\.short == searchTerm)
+            try or.filter(\.long == searchTerm)
+        }.all()
     }
 }
 
